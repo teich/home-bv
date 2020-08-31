@@ -19,3 +19,5 @@ all_motion:
     - binary_sensor.great_room_motion
     - binary_sensor.home_occupancy
     - binary_sensor.office_occupancy
+
+    

@@ -31,6 +31,13 @@ twilio:
 shell_command:
   gate: bash /config/gate.sh
 
+notify:
+  - name: OO_phones
+    platform: group
+    services:
+      - service: mobile_app_olivia_s_iphone_11_pro
+      - service: mobile_app_orens_iphone
+
 ## Includes 
 sensor: !include sensors.yaml
 binary_sensor: !include binary_sensors.yaml

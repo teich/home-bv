@@ -79,7 +79,7 @@
   action:
   - data:
       message: Water tank OVERFULL
-    service: notify.mobile_app_orens_iphone
+    service: notify.OO_phones
   mode: single
 - id: '1598671816726'
   alias: notify me when the tank is below 35%
@@ -93,5 +93,5 @@
   action:
   - data:
       message: Water Tank LOW
-    service: notify.mobile_app_orens_iphone
+    service: notify.OO_phones
   mode: single
