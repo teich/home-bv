@@ -1,0 +1,40 @@
+# Generic ignores
+*.log
+*.db
+*.db-shm
+*.db-wal
+*.pyc
+._*
+__pycache__
+
+# Directory (contents) ignores
+.cloud
+.storage
+deps
+tts
+
+# Specific file ignores
+abodepy_cache.pickle
+.config_entries.json
+.homekit.state
+.ios.conf
+.uuid
+known_devices.yaml
+secrets.yaml
+webostv.conf
+
+# Ignore gate code while I'm working on it
+gate.py
+gate.sh
+
+# ESPHome ignores
+esphome/secrets.yaml
+esphome/**/
+
+# Ignore files created by IDE's
+.vscode
+.theia
+.Trash*
+
+# Specific keeps
+!.gitkeep

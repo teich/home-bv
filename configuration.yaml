@@ -1,0 +1,39 @@
+
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+logger:
+  default: info
+  logs:
+    homeassistant.components.shell_command: debug
+    homeassistant.components.rest.sensor: debug
+
+webostv:
+  host: !secret webos_tv_host
+  name: TV
+  
+recorder:
+  db_url: !secret maria_db_url
+
+influxdb:
+  host: a0d7b954-influxdb
+  port: 8086
+  database: !secret influx_database
+  username: !secret influx_username
+  password: !secret influx_password
+  max_retries: 3
+  default_measurement: state
+
+twilio:
+  account_sid: !secret twilio_account_sid
+  auth_token: !secret twilio_auth_token
+
+shell_command:
+  gate: bash /config/gate.sh
+
+sensor: !include sensors.yaml
+binary_sensor: !include binary_sensors.yaml
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml

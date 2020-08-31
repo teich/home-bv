@@ -1,0 +1,97 @@
+- id: '1593985213202'
+  alias: Master Toilet Timeout
+  description: ''
+  trigger:
+  - entity_id: switch.master_bathroom_toilet_fan
+    for: 00:30
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - data: {}
+    entity_id: switch.master_bathroom_toilet_fan
+    service: homeassistant.turn_off
+  mode: single
+- id: '1595129037109'
+  alias: Beckett Bathroom Fan Timeout
+  description: ''
+  trigger:
+  - entity_id: switch.beckett_bathroom_fan
+    for: 00:30
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - data: {}
+    entity_id: switch.beckett_bathroom_fan
+    service: homeassistant.turn_off
+- id: '1597074933879'
+  alias: turn off the key light when office occupancy is clear
+  description: ''
+  trigger:
+  - entity_id: binary_sensor.office_occupancy
+    from: Detected
+    platform: state
+    to: Clear
+  condition:
+  - condition: device
+    device_id: 0d039201f2474563a446fb892a9f4856
+    domain: light
+    entity_id: light.elgato_key_light
+    type: is_on
+  action:
+  - device_id: 0d039201f2474563a446fb892a9f4856
+    domain: light
+    entity_id: light.elgato_key_light
+    type: turn_off
+  mode: single
+- id: '1597619983684'
+  alias: Laundry Fan Timer
+  description: ''
+  trigger:
+  - device_id: 7470981a9c024b4a96550be7fceac6df
+    domain: switch
+    entity_id: switch.laundry_room_fan
+    for:
+      hours: 1
+      minutes: 0
+      seconds: 0
+    platform: device
+    type: turned_on
+  condition: []
+  action:
+  - device_id: 7470981a9c024b4a96550be7fceac6df
+    domain: switch
+    entity_id: switch.laundry_room_fan
+    type: turn_off
+  mode: single
+- id: '1598671485605'
+  alias: Notify When Water Tank Overfull
+  description: ''
+  trigger:
+  - above: '106'
+    entity_id: sensor.water_tank_level
+    for: 00:10:00
+    platform: numeric_state
+  condition: []
+  action:
+  - data:
+      message: Water tank OVERFULL
+    service: notify.mobile_app_orens_iphone
+  mode: single
+- id: '1598671816726'
+  alias: notify me when the tank is below 35%
+  description: ''
+  trigger:
+  - below: '35'
+    entity_id: sensor.water_tank_level
+    for: 00:10:00
+    platform: numeric_state
+  condition: []
+  action:
+  - data:
+      message: Water Tank LOW
+    service: notify.mobile_app_orens_iphone
+  mode: single
