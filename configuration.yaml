@@ -6,7 +6,6 @@ logger:
   default: info
   logs:
     homeassistant.components.shell_command: debug
-    homeassistant.components.rest.sensor: debug
 
 webostv:
   host: !secret webos_tv_host
