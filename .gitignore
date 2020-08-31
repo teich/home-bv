@@ -27,10 +27,6 @@ webostv.conf
 gate.py
 gate.sh
 
-# ESPHome ignores
-esphome/secrets.yaml
-esphome/**/
-
 # Ignore files created by IDE's
 .vscode
 .theia

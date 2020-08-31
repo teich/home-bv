@@ -30,7 +30,6 @@ twilio:
 
 shell_command:
   gate: bash /config/gate.sh
-
 sensor: !include sensors.yaml
 binary_sensor: !include binary_sensors.yaml
 group: !include groups.yaml
