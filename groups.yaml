@@ -1,13 +1,17 @@
-all_door_window:
-  name: Door and Window Sensors
+all_door:
+  name: All Doors
   entities:
-    - binary_sensor.b_left
-    - binary_sensor.beckett_right_window
-    - binary_sensor.office_right_window
-    - binary_sensor.office_window_left
     - binary_sensor.front_door
     - binary_sensor.back_door
     - binary_sensor.back_hallway
+
+all_window:
+  name: All Windows
+  entities:
+    - binary_sensor.beckett_window_left
+    - binary_sensor.beckett_window_right
+    - binary_sensor.office_window_left
+    - binary_sensor.office_window_right
 
 all_motion:
   name: All Motion Sensors
