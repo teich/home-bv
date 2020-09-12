@@ -14,6 +14,12 @@ all_window:
     - binary_sensor.office_window_left
     - binary_sensor.office_window_right
 
+all_openings:
+  name: All Openings
+  entities:
+    - group.all_door
+    - group.all_window
+    
 all_motion:
   name: All Motion Sensors
   entities:

@@ -1,5 +1,5 @@
 - id: '1593985213202'
-  alias: Primary Bathroom Toilet Timeout
+  alias: 'Fan Timer: Primary Bathroom Toilet'
   description: ''
   trigger:
   - entity_id: switch.primary_bathroom_toilet_fan
@@ -14,7 +14,7 @@
     service: homeassistant.turn_off
   mode: single
 - id: '1595129037109'
-  alias: Beckett Bathroom Fan Timeout
+  alias: 'Fan Timer: Beckett Bathroom'
   description: ''
   trigger:
   - entity_id: switch.beckett_bathroom_fan
@@ -27,8 +27,9 @@
   - data: {}
     entity_id: switch.beckett_bathroom_fan
     service: homeassistant.turn_off
+  mode: single
 - id: '1597619983684'
-  alias: Laundry Fan Timer
+  alias: 'Fan Timer: Laundry Fan'
   description: ''
   trigger:
   - device_id: 7470981a9c024b4a96550be7fceac6df
@@ -48,7 +49,7 @@
     type: turn_off
   mode: single
 - id: '1598671485605'
-  alias: Notify When Water Tank Overfull
+  alias: 'NOTIFY: Water Tank Overfull'
   description: ''
   trigger:
   - above: '106'
@@ -62,7 +63,7 @@
     service: notify.OO_phones
   mode: single
 - id: '1598671816726'
-  alias: notify me when the tank is below 35%
+  alias: 'NOTIFY: Water Tank Low'
   description: ''
   trigger:
   - below: '35'
@@ -107,4 +108,57 @@
     domain: light
     entity_id: light.elgato_key_light
     type: turn_off
+  mode: single
+- id: '1599927162808'
+  alias: 'NOTIFY: Open with bad air'
+  description: ''
+  trigger:
+  - above: '100'
+    entity_id: sensor.purpleair_aqi
+    for: '15'
+    platform: numeric_state
+  - entity_id: group.all_openings
+    for: 00:05:00
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: group.all_openings
+    state: 'on'
+  - above: '100'
+    condition: numeric_state
+    entity_id: sensor.purpleair_aqi
+  action:
+  - data:
+      data:
+        url: /lovelace-open
+      message: Close the house up
+      title: AQI over 100
+    service: notify.oo_phones
+  mode: single
+- id: '1599927673794'
+  alias: 'NOTIFY CRIT: Open Really bad AQI'
+  description: ''
+  trigger:
+  - above: '160'
+    entity_id: sensor.purpleair_aqi
+    for: 00:10:00
+    platform: numeric_state
+  condition:
+  - condition: state
+    entity_id: group.all_openings
+    state: 'on'
+  action:
+  - data:
+      data:
+        push:
+          sound:
+            critical: 1
+            name: default
+            volume: 1
+        url: /lovelace-open
+      message: AQI is over 150, close doors and windows
+      title: CLOSE UP
+    service: notify.oo_phones
   mode: single
