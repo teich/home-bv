@@ -1,8 +1,8 @@
 - id: '1593985213202'
-  alias: Master Toilet Timeout
+  alias: Primary Bathroom Toilet Timeout
   description: ''
   trigger:
-  - entity_id: switch.master_bathroom_toilet_fan
+  - entity_id: switch.primary_bathroom_toilet_fan
     for: 00:30
     from: 'off'
     platform: state
@@ -10,7 +10,7 @@
   condition: []
   action:
   - data: {}
-    entity_id: switch.master_bathroom_toilet_fan
+    entity_id: switch.primary_bathroom_toilet_fan
     service: homeassistant.turn_off
   mode: single
 - id: '1595129037109'
@@ -27,26 +27,6 @@
   - data: {}
     entity_id: switch.beckett_bathroom_fan
     service: homeassistant.turn_off
-- id: '1597074933879'
-  alias: turn off the key light when office occupancy is clear
-  description: ''
-  trigger:
-  - entity_id: binary_sensor.office_occupancy
-    from: Detected
-    platform: state
-    to: Clear
-  condition:
-  - condition: device
-    device_id: 0d039201f2474563a446fb892a9f4856
-    domain: light
-    entity_id: light.elgato_key_light
-    type: is_on
-  action:
-  - device_id: 0d039201f2474563a446fb892a9f4856
-    domain: light
-    entity_id: light.elgato_key_light
-    type: turn_off
-  mode: single
 - id: '1597619983684'
   alias: Laundry Fan Timer
   description: ''
@@ -94,4 +74,37 @@
   - data:
       message: Water Tank LOW
     service: notify.OO_phones
+  mode: single
+- id: '1599779323566'
+  alias: 'OFFICE KEYLIGHT: Turn on from Button'
+  description: ''
+  trigger:
+  - event_data:
+      control: DON
+      entity_id: sensor.office_a
+    event_type: isy994_control
+    platform: event
+  condition: []
+  action:
+  - brightness_pct: 50
+    device_id: 0d039201f2474563a446fb892a9f4856
+    domain: light
+    entity_id: light.elgato_key_light
+    type: turn_on
+  mode: single
+- id: '1599779405419'
+  alias: 'OFFICE KEYLIGHT: Turn off from Button'
+  description: ''
+  trigger:
+  - event_data:
+      control: DOF
+      entity_id: sensor.office_a
+    event_type: isy994_control
+    platform: event
+  condition: []
+  action:
+  - device_id: 0d039201f2474563a446fb892a9f4856
+    domain: light
+    entity_id: light.elgato_key_light
+    type: turn_off
   mode: single

@@ -4,6 +4,7 @@ all_door:
     - binary_sensor.front_door
     - binary_sensor.back_door
     - binary_sensor.back_hallway
+    - binary_sensor.primary_bedroom_sliding_door
 
 all_window:
   name: All Windows
@@ -20,4 +21,7 @@ all_motion:
     - binary_sensor.home_occupancy
     - binary_sensor.office_occupancy
 
-    
+adults:
+  entities:
+    - person.olivia_teich
+    - person.oren_teich
