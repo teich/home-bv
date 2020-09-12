@@ -13,6 +13,7 @@ all_window:
     - binary_sensor.beckett_window_right
     - binary_sensor.office_window_left
     - binary_sensor.office_window_right
+    - binary_sensor.primary_bedroom_window
 
 all_openings:
   name: All Openings

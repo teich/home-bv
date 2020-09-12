@@ -113,7 +113,8 @@
   alias: 'NOTIFY: Open with bad air'
   description: ''
   trigger:
-  - above: '100'
+  - above: '90'
+    below: '150'
     entity_id: sensor.purpleair_aqi
     for: '15'
     platform: numeric_state
@@ -126,7 +127,8 @@
   - condition: state
     entity_id: group.all_openings
     state: 'on'
-  - above: '100'
+  - above: '90'
+    below: '150'
     condition: numeric_state
     entity_id: sensor.purpleair_aqi
   action:
@@ -141,14 +143,22 @@
   alias: 'NOTIFY CRIT: Open Really bad AQI'
   description: ''
   trigger:
-  - above: '160'
+  - above: '150'
     entity_id: sensor.purpleair_aqi
     for: 00:10:00
     platform: numeric_state
+  - entity_id: group.all_openings
+    for: 00:10:00
+    from: 'off'
+    platform: state
+    to: 'on'
   condition:
   - condition: state
     entity_id: group.all_openings
     state: 'on'
+  - above: '150'
+    condition: numeric_state
+    entity_id: sensor.purpleair_aqi
   action:
   - data:
       data:
