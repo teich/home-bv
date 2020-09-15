@@ -5,6 +5,7 @@ all_door:
     - binary_sensor.back_door
     - binary_sensor.back_hallway
     - binary_sensor.primary_bedroom_sliding_door
+    - binary_sensor.office_door
 
 all_window:
   name: All Windows
@@ -14,6 +15,7 @@ all_window:
     - binary_sensor.office_window_left
     - binary_sensor.office_window_right
     - binary_sensor.primary_bedroom_window
+    - binary_sensor.tv_right_window
 
 all_openings:
   name: All Openings
