@@ -23,6 +23,10 @@ influxdb:
   max_retries: 3
   default_measurement: state
 
+wirelesstag:
+  username: !secret tag_username
+  password: !secret tag_password
+
 twilio:
   account_sid: !secret twilio_account_sid
   auth_token: !secret twilio_auth_token

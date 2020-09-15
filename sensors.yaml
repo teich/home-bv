@@ -4,6 +4,12 @@
   host: 192.168.2.158
   token: !secret token_airmonitor
 
+- platform: wirelesstag
+  monitored_conditions:
+    - temperature
+    - humidity
+    - moisture
+    - light
 
 - platform: rest
   name: bv_temp
