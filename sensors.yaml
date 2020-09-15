@@ -1,4 +1,9 @@
 ### sensors.yaml
+- platform: xiaomi_miio
+  name: Xiaomi Air Quality Monitor
+  host: 192.168.2.158
+  token: !secret token_airmonitor
+
 
 - platform: rest
   name: bv_temp
