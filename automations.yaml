@@ -172,3 +172,51 @@
       title: CLOSE UP
     service: notify.oo_phones
   mode: single
+- id: '1600193318306'
+  alias: Filter Air ON when Bad AQI
+  description: ''
+  trigger:
+  - above: '40'
+    entity_id: sensor.xiaomi_air_quality_monitor
+    for: 00:10:00
+    platform: numeric_state
+  - entity_id: group.all_openings
+    for: 00:10:00
+    from: 'on'
+    platform: state
+    to: 'off'
+  condition:
+  - condition: state
+    entity_id: group.all_openings
+    state: 'off'
+  - above: '40'
+    condition: numeric_state
+    entity_id: sensor.xiaomi_air_quality_monitor
+  action:
+  - data:
+      fan_mode: 'on'
+    entity_id: climate.home
+    service: climate.set_fan_mode
+  mode: single
+- id: '1600193551553'
+  alias: Filter Air OFF when Bad AQI
+  description: ''
+  trigger:
+  - below: '28'
+    entity_id: sensor.xiaomi_air_quality_monitor
+    for: 00:10:00
+    platform: numeric_state
+  - entity_id: group.all_openings
+    for: 00:10:00
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition:
+  - condition: template
+    value_template: is_state_attr('climate.home', 'fan_mode', 'on')
+  action:
+  - data:
+      fan_mode: auto
+    entity_id: climate.home
+    service: climate.set_fan_mode
+  mode: single
