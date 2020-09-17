@@ -70,7 +70,10 @@
     entity_id: sensor.water_tank_level
     for: 00:10:00
     platform: numeric_state
-  condition: []
+  condition:
+  - condition: state
+    entity_id: binary_sensor.tank_draining
+    state: 'on'
   action:
   - data:
       message: Water Tank LOW

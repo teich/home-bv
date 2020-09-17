@@ -1,3 +1,17 @@
+- platform: trend
+  sensors:
+    tank_filling:
+      entity_id: sensor.water_tank_voltage
+      sample_duration: 7200
+      max_samples: 150
+      min_gradient: 0.000009
+
+    tank_draining:
+      entity_id: sensor.water_tank_voltage
+      sample_duration: 7200
+      max_samples: 150
+      min_gradient: -0.000009
+
 - platform: template
   sensors:
     # Add a connectivity sensor for purpleair. Why isn't the above rest sensor
