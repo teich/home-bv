@@ -16,6 +16,8 @@ all_window:
     - binary_sensor.office_window_right
     - binary_sensor.primary_bedroom_window
     - binary_sensor.tv_right_window
+    - binary_sensor.tv_room_left_window
+    - binary_sensor.kitchen_left_window
 
 all_openings:
   name: All Openings
