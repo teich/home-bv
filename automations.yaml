@@ -56,7 +56,10 @@
     entity_id: sensor.water_tank_level
     for: 00:10:00
     platform: numeric_state
-  condition: []
+  condition:
+  - condition: state
+    entity_id: binary_sensor.tank_filling
+    state: 'on'
   action:
   - data:
       message: Water tank OVERFULL
@@ -179,7 +182,7 @@
   alias: Filter Air ON when Bad AQI
   description: ''
   trigger:
-  - above: '40'
+  - above: '30'
     entity_id: sensor.xiaomi_air_quality_monitor
     for: 00:10:00
     platform: numeric_state
@@ -192,9 +195,9 @@
   - condition: state
     entity_id: group.all_openings
     state: 'off'
-  - above: '40'
-    condition: numeric_state
+  - condition: numeric_state
     entity_id: sensor.xiaomi_air_quality_monitor
+    above: '30'
   action:
   - data:
       fan_mode: 'on'
@@ -205,7 +208,7 @@
   alias: Filter Air OFF when Bad AQI
   description: ''
   trigger:
-  - below: '28'
+  - below: '10'
     entity_id: sensor.xiaomi_air_quality_monitor
     for: 00:10:00
     platform: numeric_state
