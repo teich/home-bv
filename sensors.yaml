@@ -8,8 +8,8 @@
   monitored_conditions:
     - temperature
     - humidity
-    - moisture
     - light
+    # - moisture
 
 - platform: rest
   name: bv_temp
@@ -60,7 +60,6 @@
   sensors:
     purpleair_aqi:
       friendly_name: 'PurpleAir AQI'
-      unique_id: purpleair_aqi
       # Set this sensor to be the AQI value.
       #
       # Code translated from JavaScript found at:
@@ -90,64 +89,11 @@
           invalid
         {% endif %}
       unit_of_measurement: "AQI"
-      entity_id: sensor.purpleair
-      availability_template: "{{ sensor.purpleair_available }}"
-    purpleair_description:
-      friendly_name: 'PurpleAir AQI Description'
-      unique_id: purpleair_description
-      value_template: >
-        {% set aqi = states('sensor.purpleair_aqi')|float %}
-        {% if aqi >= 401.0 %}
-          Very Hazardous
-        {% elif aqi >= 301.0 %}
-          Hazardous
-        {% elif aqi >= 201.0 %}
-          Very Unhealthy
-        {% elif aqi >= 151.0 %}
-          Unhealthy
-        {% elif aqi >= 101.0 %}
-          Unhealthy for Sensitive Groups
-        {% elif aqi >= 51.0 %}
-          Moderate
-        {% elif aqi >= 0.0 %}
-          Good
-        {% else %}
-          undefined
-        {% endif %}
-      entity_id: sensor.purpleair
+      # entity_id: sensor.purpleair
       availability_template: "{{ sensor.purpleair_available }}"
     purpleair_pm25:
       friendly_name: 'PurpleAir PM 2.5'
-      unique_id: purpleair_pm25
       value_template: "{{ state_attr('sensor.purpleair', 'results')[0]['PM2_5Value'] }}"
       unit_of_measurement: "μg/m3"
-      entity_id: sensor.purpleair
+      # entity_id: sensor.purpleair
       availability_template: "{{ sensor.purpleair_available }}"
-    purpleair_temp:
-      friendly_name: 'PurpleAir Temperature'
-      unique_id: purpleair_temp
-      # Why "- 8"?
-      # https://www2.purpleair.com/community/faq#!hc-primary-and-secondary-data-header
-      value_template: "{{ state_attr('sensor.purpleair', 'results')[0]['temp_f'] | float - 8 }}"
-      unit_of_measurement: "°F"
-      device_class: temperature
-      entity_id: sensor.purpleair
-      availability_template: "{{ sensor.purpleair_available }}"
-    purpleair_humidity:
-      friendly_name: 'PurpleAir Humidity'
-      unique_id: purpleair_humidity
-      value_template: "{{ state_attr('sensor.purpleair', 'results')[0]['humidity'] }}"
-      unit_of_measurement: "%"
-      device_class: humidity
-      entity_id: sensor.purpleair
-      availability_template: "{{ sensor.purpleair_available }}"
-    purpleair_pressure:
-      friendly_name: 'PurpleAir Pressure'
-      unique_id: purpleair_pressure
-      value_template: "{{ state_attr('sensor.purpleair', 'results')[0]['pressure'] }}"
-      unit_of_measurement: "mb"
-      device_class: pressure
-      entity_id: sensor.purpleair
-      availability_template: "{{ sensor.purpleair_available }}"
-
-
