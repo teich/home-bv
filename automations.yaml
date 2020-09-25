@@ -231,7 +231,7 @@
   description: ''
   trigger:
   - platform: time
-    at: '18:00'
+    at: '18:00:00'
   condition:
   - condition: state
     entity_id: binary_sensor.orens_imac_pro_game_capture_hd60_s_camera
@@ -239,5 +239,5 @@
   action:
   - service: notify.mobile_app_orens_iphone
     data:
-      message: You left the camera on!
+      message: "You left the camera on!"
   mode: single
