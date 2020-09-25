@@ -1,0 +1,162 @@
+fan:
+  - platform: xiaomi_miio
+    name: "Mi Air Purifier 3H"
+    host: !secret mi_air_host
+    token: !secret mi_air_token
+    model: zhimi.airpurifier.mb3
+    
+input_select:
+  mi_air_purifier_mode:
+    name: Mode
+    options:
+      - Auto
+      - Silent
+      - Favorite
+      - Fan
+    initial: Auto
+    icon: mdi:animation-outline
+  mi_air_purifier_coverage:
+    name: Coverage
+    options:
+      - 2-4 m²
+      - 5-9 m²
+      - 7-12 m²
+      - 12-22 m²
+      - 14-24 m²
+      - 14-25 m²
+      - 16-27 m²
+      - 17-30 m²
+      - 18-32 m²
+      - 19-33 m²
+      - 20-34 m²
+      - 22-38 m²
+      - 23-40 m²
+      - 26-45 m²
+      - 28-49 m²
+    initial: 2-4 m²
+    icon: mdi:texture-box
+input_number:
+  mi_air_purifier_favorite_level:
+    name: "Favorite level"
+    initial: 0
+    min: 0
+    max: 14
+    step: 1
+    icon: mdi:weather-windy
+  mi_air_purifier_fan_level:
+    name: "Fan level"
+    initial: 1
+    min: 1
+    max: 3
+    step: 1
+    icon: mdi:jquery
+input_boolean:
+  mi_air_purifier_attributes:
+    name: Attributes
+    icon: mdi:pencil
+
+switch:
+- platform: template
+  switches:
+    mi_air_purifier_led:
+      friendly_name: "Display"
+      value_template: "{{ is_state_attr('fan.mi_air_purifier_3h', 'led', true) }}"
+      turn_on:
+        service: xiaomi_miio.fan_set_led_on
+        data:
+          entity_id: fan.mi_air_purifier_3h
+      turn_off:
+        service: xiaomi_miio.fan_set_led_off
+        data:
+          entity_id: fan.mi_air_purifier_3h
+      icon_template: mdi:lightbulb-outline
+    mi_air_purifier_child_lock:
+      friendly_name: "Child lock"
+      value_template: "{{ is_state_attr('fan.mi_air_purifier_3h', 'child_lock', true) }}"
+      turn_on:
+        service: xiaomi_miio.fan_set_child_lock_on
+        data:
+          entity_id: fan.mi_air_purifier_3h
+      turn_off:
+        service: xiaomi_miio.fan_set_child_lock_off
+        data:
+          entity_id: fan.mi_air_purifier_3h
+      icon_template: "mdi:lock-outline"        
+    mi_air_purifier_buzzer:
+      friendly_name: "Buzzer"
+      value_template: "{{ is_state_attr('fan.mi_air_purifier_3h', 'buzzer', true) }}"
+      turn_on:
+        service: xiaomi_miio.fan_set_buzzer_on
+        data:
+          entity_id: fan.mi_air_purifier_3h
+      turn_off:
+        service: xiaomi_miio.fan_set_buzzer_off
+        data:
+          entity_id: fan.mi_air_purifier_3h
+      icon_template: "mdi:volume-high"
+
+## Air purifier
+sensor:
+  - platform: template
+    sensors:
+      mi_air_purifier_temp:
+        friendly_name: "Temperature"
+        value_template: "{{ state_attr('fan.mi_air_purifier_3h', 'temperature') }}"
+        unit_of_measurement: "°C"
+        device_class: "temperature"
+      mi_air_purifier_humidity:
+        friendly_name: "Humidity"
+        value_template: "{{ state_attr('fan.mi_air_purifier_3h', 'humidity') }}"
+        unit_of_measurement: "%"
+        device_class: "humidity"
+      mi_air_purifier_air_quality_pm25:
+        friendly_name: "Air quality (AQI) PM2.5"
+        value_template: "{{ state_attr('fan.mi_air_purifier_3h', 'aqi') }}"
+        unit_of_measurement: "μg/m³"
+        icon_template: "mdi:weather-fog"
+      mi_air_purifier_avg_air_quality_pm25:
+        friendly_name: "Average air quality (AvgAQI) PM2.5"
+        value_template: "{{ state_attr('fan.mi_air_purifier_3h', 'average_aqi') }}"
+        unit_of_measurement: "μg/m³"
+        icon_template: "mdi:weather-hazy"
+      mi_air_purifier_use_time:
+        friendly_name: "Time used"
+        value_template: >
+            {% macro phrase(value, name) %}
+            {%- set value = value | int %}
+            {%- set end = 's' if value > 1 else '' %}
+            {{- '{} {}{}'.format(value, name, end) if value | int > 0 else '' }}
+            {%- endmacro %}
+            
+            {% set weeks = (state_attr('fan.mi_air_purifier_3h', 'use_time') | int / 604800) | int %}
+            {% set days = ((state_attr('fan.mi_air_purifier_3h', 'use_time') | int - (weeks * 604800)) / 86400) | int %}
+            {% set hours = ((state_attr('fan.mi_air_purifier_3h', 'use_time') | int - (weeks * 604800) - (days * 86400)) / 3600) | int %}
+            {% set minutes = ((state_attr('fan.mi_air_purifier_3h', 'use_time') | int - (weeks * 604800) - (days * 86400) - (hours * 3600)) / 60) | int %}
+            {% set seconds = (state_attr('fan.mi_air_purifier_3h', 'use_time') | int - (weeks * 604800) - (days * 86400) - (hours * 3600) - (minutes*60)) | int %}
+            {{ [ phrase(weeks, 'week'), phrase(days, 'day'), phrase(hours, 'hr'), phrase(minutes, 'min'), phrase(seconds, 'sec') ] | select('!=','') | list | join(', ') }}
+        icon_template: "mdi:heart-pulse"
+      mi_air_purifier_filter_used:
+        friendly_name: "Filter used"
+        value_template: "{{ state_attr('fan.mi_air_purifier_3h', 'filter_hours_used') }}"
+        unit_of_measurement: "hrs"
+        icon_template: "mdi:heart-off"
+      mi_air_purifier_filter_remaining:
+        friendly_name: "Filter remaining"
+        value_template: "{{ state_attr('fan.mi_air_purifier_3h', 'filter_life_remaining') }}"
+        unit_of_measurement: "%"
+        icon_template: "mdi:heart-outline"
+      mi_air_purifier_purify_volume:
+        friendly_name: "Purified volume"
+        value_template: "{{ state_attr('fan.mi_air_purifier_3h', 'purify_volume') }}"
+        unit_of_measurement: "m³"
+        icon_template: "mdi:warehouse"
+      mi_air_purifier_speed:
+        friendly_name: "Motor speed"
+        value_template: "{{ state_attr('fan.mi_air_purifier_3h', 'motor_speed') }}"
+        unit_of_measurement: "rpm"
+        icon_template: "mdi:speedometer"
+      mi_air_purifier_led_brightness:
+        friendly_name: "Led brightness"
+        value_template: "{{ state_attr('fan.mi_air_purifier_3h', 'led_brightness') }}"
+        unit_of_measurement: "lx"
+        icon_template: "mdi:brightness-5"
