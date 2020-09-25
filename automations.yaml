@@ -226,3 +226,18 @@
     entity_id: climate.home
     service: climate.set_fan_mode
   mode: single
+- id: '1600963415504'
+  alias: 'NOTIFY: Camera is left on at night'
+  description: ''
+  trigger:
+  - platform: time
+    at: '18:00'
+  condition:
+  - condition: state
+    entity_id: binary_sensor.orens_imac_pro_game_capture_hd60_s_camera
+    state: 'on'
+  action:
+  - service: notify.mobile_app_orens_iphone
+    data:
+      message: You left the camera on!
+  mode: single
