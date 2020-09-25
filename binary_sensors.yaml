@@ -11,18 +11,3 @@
       sample_duration: 7200
       max_samples: 150
       min_gradient: -0.000009
-
-- platform: template
-  sensors:
-    # Add a connectivity sensor for purpleair. Why isn't the above rest sensor
-    # a binary_sensor? Turns out binary_sensor rest devices can't have a
-    # json_attributes section.
-    purpleair_available:
-      friendly_name: 'PurpleAir Available'
-      unique_id: purpleair_available
-      value_template: > 
-        {% set stats = state_attr('sensor.purpleair', 'results')[0]['Stats']|from_json %}
-        {% set minutes = stats['timeSinceModified']|int / 1000 /60 %}
-        {{ minutes < 5 }}
-      # entity_id: sensor.purpleair
-      device_class: connectivity
