@@ -239,5 +239,89 @@
   action:
   - service: notify.mobile_app_orens_iphone
     data:
-      message: "You left the camera on!"
+      message: You left the camera on!
+  mode: single
+- id: '1603238680858'
+  alias: Turn on the lights when I get home
+  description: ''
+  trigger:
+  - platform: zone
+    entity_id: person.oren_teich
+    zone: zone.bv_property
+    event: enter
+  - platform: zone
+    entity_id: person.olivia_teich
+    zone: zone.bv_property
+    event: enter
+  condition:
+  - condition: sun
+    after: sunset
+  action:
+  - domain: light
+    entity_id: light.front_patio_light
+    device_id: a222c1d98de2442281a5ce3c23fd9c21
+    type: turn_on
+    brightness_pct: 100
+  - type: turn_on
+    device_id: 75e054fb014011ebb40a71d0f5db3386
+    entity_id: switch.outside_entrance_lights
+    domain: switch
+  - type: turn_on
+    device_id: b8dd8663663347aeb76bbf98e1b4deb8
+    entity_id: switch.great_room_uplight
+    domain: switch
+  mode: single
+- id: '1606773168591'
+  alias: 'OFFICE KEYLIGHT: Camera auto turn on'
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.google_macbookpro_game_capture_hd60_s_camera
+    from: 'off'
+    to: 'on'
+    for: 0:00:05
+  condition: []
+  action:
+  - type: turn_on
+    device_id: 0d039201f2474563a446fb892a9f4856
+    entity_id: light.elgato_key_light
+    domain: light
+    brightness_pct: 60
+  mode: single
+- id: '1606773416187'
+  alias: 'OFFICE KEYLIGHT: Camera auto turn off'
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.google_macbookpro_game_capture_hd60_s_camera
+    from: 'on'
+    to: 'off'
+    for: 0:00:05
+  condition: []
+  action:
+  - type: turn_off
+    device_id: 0d039201f2474563a446fb892a9f4856
+    entity_id: light.elgato_key_light
+    domain: light
+  mode: single
+- id: '1606773700409'
+  alias: Turn outside lights on at sunset
+  description: ''
+  trigger:
+  - platform: sun
+    event: sunset
+  condition:
+  - condition: or
+    conditions:
+    - condition: zone
+      entity_id: person.oren_teich
+      zone: zone.bv_property
+    - condition: zone
+      entity_id: person.olivia_teich
+      zone: zone.bv_property
+  action:
+  - type: turn_on
+    device_id: 75e054fb014011ebb40a71d0f5db3386
+    entity_id: switch.outside_entrance_lights
+    domain: switch
   mode: single
