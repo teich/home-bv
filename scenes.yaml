@@ -1,1 +1,92 @@
-[]
+- id: '1607620343534'
+  name: All Off
+  entities:
+    switch.air_compressor:
+      device_communication_errors: '0'
+      on_level: 100%
+      ramp_rate: '31'
+      friendly_name: Air Compressor
+      state: 'off'
+    switch.back_deck_lights:
+      on_level: 100%
+      ramp_rate: '31'
+      friendly_name: Back Deck Lights
+      state: 'off'
+    switch.back_deck_spot:
+      on_level: 100%
+      ramp_rate: '28'
+      friendly_name: Back Deck Spot
+      state: 'off'
+    switch.back_fountain:
+      on_level: 100%
+      ramp_rate: '31'
+      friendly_name: Back Fountain
+      icon: mdi:fountain
+      state: 'off'
+    switch.beckett_bathroom_fan:
+      on_level: 100%
+      ramp_rate: '28'
+      friendly_name: Beckett Bathroom Fan
+      icon: mdi:fan
+      state: 'off'
+    light.beckett_bathroom:
+      on_level: 100%
+      ramp_rate: 0.1 seconds
+      last_brightness: 255
+      friendly_name: Beckett Bathroom Light
+      supported_features: 1
+      state: 'off'
+    light.beckett_bathroom_shower:
+      on_level: 100%
+      ramp_rate: 0.5 seconds
+      last_brightness: 255
+      friendly_name: Beckett Bathroom Shower Light
+      supported_features: 1
+      state: 'off'
+    light.dining_table:
+      on_level: 100%
+      ramp_rate: 0.5 seconds
+      last_brightness: 255
+      friendly_name: Dining Table
+      icon: mdi:globe-light
+      supported_features: 1
+      state: 'off'
+    switch.entry_ceiling_fan:
+      on_level: 100%
+      ramp_rate: '28'
+      friendly_name: Entry Ceiling Fan
+      icon: mdi:fan
+      state: 'off'
+    switch.entry_closet_uplight:
+      on_level: 100%
+      ramp_rate: '28'
+      friendly_name: Entry Closet Uplight
+      icon: mdi:lightbulb
+      state: 'off'
+    light.front_patio_light:
+      on_level: 100%
+      ramp_rate: 0.5 seconds
+      last_brightness: 255
+      friendly_name: Front Patio Light
+      supported_features: 1
+      state: 'off'
+    switch.great_room_uplight:
+      on_level: 100%
+      ramp_rate: '28'
+      friendly_name: Great Room Uplight
+      icon: mdi:lightbulb
+      state: 'on'
+    light.great_room_sofa:
+      on_level: 100%
+      ramp_rate: 0.5 seconds
+      last_brightness: 255
+      friendly_name: Great Room Sofa
+      supported_features: 1
+      state: 'off'
+    light.kitchen:
+      on_level: 100%
+      ramp_rate: 0.1 seconds
+      last_brightness: 255
+      friendly_name: Kitchen Cans
+      supported_features: 1
+      state: 'off'
