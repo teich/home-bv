@@ -245,14 +245,10 @@
   alias: Turn on the lights when I get home
   description: ''
   trigger:
-  - platform: zone
-    entity_id: person.oren_teich
-    zone: zone.bv_property
-    event: enter
-  - platform: zone
-    entity_id: person.olivia_teich
-    zone: zone.bv_property
-    event: enter
+  - platform: state
+    entity_id: group.adults
+    from: not_home
+    to: home
   condition:
   - condition: sun
     after: sunset
@@ -311,17 +307,42 @@
   - platform: sun
     event: sunset
   condition:
-  - condition: or
-    conditions:
-    - condition: zone
-      entity_id: person.oren_teich
-      zone: zone.bv_property
-    - condition: zone
-      entity_id: person.olivia_teich
-      zone: zone.bv_property
+  - condition: state
+    entity_id: group.adults
+    state: home
   action:
   - type: turn_on
     device_id: 75e054fb014011ebb40a71d0f5db3386
     entity_id: switch.outside_entrance_lights
     domain: switch
+  mode: single
+- id: '1607620394041'
+  alias: 'LIGHT: Off when we leave'
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: group.adults
+    from: home
+    to: not_home
+    for: 00:10:00
+  condition: []
+  action:
+  - scene: scene.new_scene
+  mode: single
+- id: '1607621255833'
+  alias: 'SONOS: Pause Beckett after 30 min'
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: media_player.beckett
+    from: paused
+    to: playing
+    for: 00:30:00
+  condition:
+  - condition: time
+    after: '20:00:00'
+  action:
+  - service: media_player.media_stop
+    data: {}
+    entity_id: media_player.beckett
   mode: single
