@@ -242,7 +242,7 @@
       message: You left the camera on!
   mode: single
 - id: '1603238680858'
-  alias: Turn on the lights when I get home
+  alias: 'LIGHT: Turn on the lights when I get home'
   description: ''
   trigger:
   - platform: state
@@ -301,7 +301,7 @@
     domain: light
   mode: single
 - id: '1606773700409'
-  alias: Turn outside lights on at sunset
+  alias: 'LIGHT: Turn outside lights on at sunset'
   description: ''
   trigger:
   - platform: sun
@@ -341,8 +341,86 @@
   condition:
   - condition: time
     after: '20:00:00'
+    before: 07:00:00
   action:
   - service: media_player.media_stop
     data: {}
     entity_id: media_player.beckett
+  mode: single
+- id: '1607825888981'
+  alias: 'TREE: On Sunset'
+  description: ''
+  trigger:
+  - platform: sun
+    event: sunset
+  condition:
+  - condition: state
+    entity_id: group.adults
+    state: home
+  action:
+  - type: turn_on
+    device_id: 4dbd6e5b10335b3c31eae83b67f85fd4
+    entity_id: switch.christmast_tree_lights
+    domain: switch
+  mode: single
+- id: '1607825936058'
+  alias: 'TREE: Off at night'
+  description: ''
+  trigger:
+  - platform: time
+    at: '23:00:00'
+  condition: []
+  action:
+  - type: turn_off
+    device_id: 4dbd6e5b10335b3c31eae83b67f85fd4
+    entity_id: switch.christmast_tree_lights
+    domain: switch
+  mode: single
+- id: '1608782153316'
+  alias: window controlled heater
+  description: ''
+  use_blueprint:
+    path: gresie/window_controlled_heater.yaml
+    input:
+      window_closed_wait: '120'
+      heating_target: climate.home
+      window_entity: group.all_door
+- id: '1609259463898'
+  alias: 'HVAC: Turn off when door opened'
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: group.all_openings
+    from: of
+    to: 'on'
+    for: 00:10:00
+  condition: []
+  action:
+  - service: climate.turn_off
+    data: {}
+    entity_id: climate.home
+  - service: input_boolean.turn_on
+    data: {}
+    entity_id: input_boolean.hvac_automation_triggered
+  mode: single
+- id: '1609259545487'
+  alias: 'HVAC: Turn on when closed again'
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: group.all_openings
+    from: 'on'
+    to: 'off'
+    for: 00:05:00
+  condition:
+  - condition: state
+    entity_id: input_boolean.hvac_automation_triggered
+    state: 'on'
+  action:
+  - service: climate.turn_on
+    data: {}
+    entity_id: climate.home
+  - service: input_boolean.turn_off
+    data: {}
+    entity_id: input_boolean.hvac_automation_triggered
   mode: single
