@@ -376,15 +376,6 @@
     entity_id: switch.christmast_tree_lights
     domain: switch
   mode: single
-- id: '1608782153316'
-  alias: window controlled heater
-  description: ''
-  use_blueprint:
-    path: gresie/window_controlled_heater.yaml
-    input:
-      window_closed_wait: '120'
-      heating_target: climate.home
-      window_entity: group.all_door
 - id: '1609259463898'
   alias: 'HVAC: Turn off when door opened'
   description: ''
