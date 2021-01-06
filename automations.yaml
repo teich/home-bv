@@ -272,7 +272,7 @@
   description: ''
   trigger:
   - platform: state
-    entity_id: binary_sensor.google_macbookpro_game_capture_hd60_s_camera
+    entity_id: binary_sensor.google_macbookpro_camera_in_use
     from: 'off'
     to: 'on'
     for: 0:00:05
@@ -289,10 +289,10 @@
   description: ''
   trigger:
   - platform: state
-    entity_id: binary_sensor.google_macbookpro_game_capture_hd60_s_camera
     from: 'on'
     to: 'off'
     for: 0:00:05
+    entity_id: binary_sensor.google_macbookpro_camera_in_use
   condition: []
   action:
   - type: turn_off
