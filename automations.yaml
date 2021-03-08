@@ -82,39 +82,6 @@
       message: Water Tank LOW
     service: notify.OO_phones
   mode: single
-- id: '1599779323566'
-  alias: 'OFFICE KEYLIGHT: Turn on from Button'
-  description: ''
-  trigger:
-  - event_data:
-      control: DON
-      entity_id: sensor.office_a
-    event_type: isy994_control
-    platform: event
-  condition: []
-  action:
-  - brightness_pct: 50
-    device_id: 0d039201f2474563a446fb892a9f4856
-    domain: light
-    entity_id: light.elgato_key_light
-    type: turn_on
-  mode: single
-- id: '1599779405419'
-  alias: 'OFFICE KEYLIGHT: Turn off from Button'
-  description: ''
-  trigger:
-  - event_data:
-      control: DOF
-      entity_id: sensor.office_a
-    event_type: isy994_control
-    platform: event
-  condition: []
-  action:
-  - device_id: 0d039201f2474563a446fb892a9f4856
-    domain: light
-    entity_id: light.elgato_key_light
-    type: turn_off
-  mode: single
 - id: '1599927162808'
   alias: 'NOTIFY: Open with bad air'
   description: ''
@@ -275,7 +242,7 @@
     entity_id: binary_sensor.google_macbookpro_camera_in_use
     from: 'off'
     to: 'on'
-    for: 0:00:05
+    for: 0:00:01
   condition: []
   action:
   - type: turn_on
@@ -348,7 +315,7 @@
     entity_id: media_player.beckett
   mode: single
 - id: '1607825888981'
-  alias: 'TREE: On Sunset'
+  alias: 'Light: side table on Sunset'
   description: ''
   trigger:
   - platform: sun
@@ -364,11 +331,11 @@
     domain: switch
   mode: single
 - id: '1607825936058'
-  alias: 'TREE: Off at night'
+  alias: 'LIGHT: Side table off at night'
   description: ''
   trigger:
   - platform: time
-    at: '23:00:00'
+    at: '22:00:00'
   condition: []
   action:
   - type: turn_off
@@ -414,4 +381,17 @@
   - service: input_boolean.turn_off
     data: {}
     entity_id: input_boolean.hvac_automation_triggered
+  mode: single
+- id: '1615095040291'
+  alias: 'LIGHT: Turn outside lights off at midnight'
+  description: ''
+  trigger:
+  - platform: time
+    at: '23:59:00'
+  condition: []
+  action:
+  - type: turn_off
+    device_id: 75e054fb014011ebb40a71d0f5db3386
+    entity_id: switch.outside_entrance_lights
+    domain: switch
   mode: single
