@@ -3,7 +3,7 @@ all_door:
   entities:
     - binary_sensor.front_door
     - binary_sensor.back_door
-    - binary_sensor.back_hallway
+    - binary_sensor.back_hallway_door
     - binary_sensor.primary_bedroom_sliding_door
     - binary_sensor.office_door
 
