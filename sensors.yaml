@@ -18,23 +18,23 @@
   value_template: "{{ ((value_json['summary']['feels_like'])|float * (9 / 5)+ 32)|round(1) }}"
   unit_of_measurement: '°F'
 
-- platform: rest
-  name: IoTaWattGarage
-  resource: 'http://192.168.2.20/status?inputs=yes&outputs=yes'
-  json_attributes:
-    - outputs
-  value_template: '{{ value_json.inputs[0].Vrms }}'
-  device_class: voltage
-  scan_interval: 5
+# - platform: rest
+#   name: IoTaWattGarage
+#   resource: 'http://192.168.2.20/status?inputs=yes&outputs=yes'
+#   json_attributes:
+#     - outputs
+#   value_template: '{{ value_json.inputs[0].Vrms }}'
+#   device_class: voltage
+#   scan_interval: 5
 
-- platform: rest
-  name: IoTaWattHouse
-  resource: 'http://192.168.2.21/status?inputs=yes&outputs=yes'
-  json_attributes:
-    - outputs
-  value_template: '{{ value_json.inputs[0].Vrms }}'
-  device_class: voltage
-  scan_interval: 5
+# - platform: rest
+#   name: IoTaWattHouse
+#   resource: 'http://192.168.2.21/status?inputs=yes&outputs=yes'
+#   json_attributes:
+#     - outputs
+#   value_template: '{{ value_json.inputs[0].Vrms }}'
+#   device_class: voltage
+#   scan_interval: 5
 
 - platform: template
   sensors:
@@ -49,34 +49,34 @@
         {% else %}
           invalid
         {% endif %}
-    # IotaWatt generated sensors
-    iotawatt_output_agtotal:
-      value_template: '{{ states.sensor.iotawattgarage.attributes.outputs[0].value | round(1) }}'
-      unit_of_measurement: Watts
-      device_class: power
-    iotawatt_output_garage_misc:
-      value_template: '{{ states.sensor.iotawattgarage.attributes.outputs[1].value | round(1) }}'
-      unit_of_measurement: Watts
-      device_class: power
-    iotawatt_output_solar:
-      value_template: '{{ states.sensor.iotawattgarage.attributes.outputs[2].value | round(1) }}'
-      unit_of_measurement: Watts
-      device_class: power
-    iotawatt_output_well:
-      value_template: '{{ states.sensor.iotawattgarage.attributes.outputs[3].value | round(1) }}'
-      unit_of_measurement: Watts
-      device_class: power
-    iotawatt_output_housetotal:
-      value_template: '{{ states.sensor.iotawatthouse.attributes.outputs[0].value | round(1) }}'
-      unit_of_measurement: Watts
-      device_class: power
-    iotawatt_output_misc:
-      value_template: '{{ states.sensor.iotawatthouse.attributes.outputs[1].value | round(1) }}'
-      unit_of_measurement: Watts
-      device_class: power
-    iotawatt_total:
-      value_template: "{{ (states('sensor.iotawatt_output_housetotal')|float + states('sensor.iotawatt_output_agtotal')|float) | round(1) }}"
-      unit_of_measurement: Watts
-      device_class: power
+    # # IotaWatt generated sensors
+    # iotawatt_output_agtotal:
+    #   value_template: '{{ states.sensor.iotawattgarage.attributes.outputs[0].value | round(1) }}'
+    #   unit_of_measurement: Watts
+    #   device_class: power
+    # iotawatt_output_garage_misc:
+    #   value_template: '{{ states.sensor.iotawattgarage.attributes.outputs[1].value | round(1) }}'
+    #   unit_of_measurement: Watts
+    #   device_class: power
+    # iotawatt_output_solar:
+    #   value_template: '{{ states.sensor.iotawattgarage.attributes.outputs[2].value | round(1) }}'
+    #   unit_of_measurement: Watts
+    #   device_class: power
+    # iotawatt_output_well:
+    #   value_template: '{{ states.sensor.iotawattgarage.attributes.outputs[3].value | round(1) }}'
+    #   unit_of_measurement: Watts
+    #   device_class: power
+    # iotawatt_output_housetotal:
+    #   value_template: '{{ states.sensor.iotawatthouse.attributes.outputs[0].value | round(1) }}'
+    #   unit_of_measurement: Watts
+    #   device_class: power
+    # iotawatt_output_misc:
+    #   value_template: '{{ states.sensor.iotawatthouse.attributes.outputs[1].value | round(1) }}'
+    #   unit_of_measurement: Watts
+    #   device_class: power
+    # iotawatt_total:
+    #   value_template: "{{ (states('sensor.iotawatt_output_housetotal')|float + states('sensor.iotawatt_output_agtotal')|float) | round(1) }}"
+    #   unit_of_measurement: Watts
+    #   device_class: power
 
 
