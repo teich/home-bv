@@ -1,5 +1,5 @@
 - id: '1593985213202'
-  alias: 'Fan Timer: Primary Bathroom Toilet'
+  alias: '💨  Fan Timer: Primary Bathroom Toilet'
   description: ''
   trigger:
   - entity_id: switch.primary_bathroom_toilet_fan
@@ -14,7 +14,7 @@
     service: homeassistant.turn_off
   mode: single
 - id: '1595129037109'
-  alias: 'Fan Timer: Beckett Bathroom'
+  alias: '💨 Fan Timer: Beckett Bathroom'
   description: ''
   trigger:
   - entity_id: switch.beckett_bathroom_fan
@@ -29,7 +29,7 @@
     service: homeassistant.turn_off
   mode: single
 - id: '1597619983684'
-  alias: 'Fan Timer: Laundry Fan'
+  alias: '💨  Fan Timer: Laundry Fan'
   description: ''
   trigger:
   - device_id: 7470981a9c024b4a96550be7fceac6df
@@ -193,21 +193,6 @@
     entity_id: climate.home
     service: climate.set_fan_mode
   mode: single
-- id: '1600963415504'
-  alias: 'NOTIFY: Camera is left on at night'
-  description: ''
-  trigger:
-  - platform: time
-    at: '18:00:00'
-  condition:
-  - condition: state
-    entity_id: binary_sensor.orens_imac_pro_game_capture_hd60_s_camera
-    state: 'on'
-  action:
-  - service: notify.mobile_app_orens_iphone
-    data:
-      message: You left the camera on!
-  mode: single
 - id: '1603238680858'
   alias: 'LIGHT: Turn on the lights when I get home'
   description: ''
@@ -235,11 +220,11 @@
     domain: switch
   mode: single
 - id: '1606773168591'
-  alias: 'OFFICE KEYLIGHT: Camera auto turn on'
+  alias: '🖥 OFFICE KEYLIGHT: Camera auto turn on'
   description: ''
   trigger:
   - platform: state
-    entity_id: binary_sensor.google_macbookpro_camera_in_use
+    entity_id: binary_sensor.bv_imac_pro_camera_in_use
     from: 'off'
     to: 'on'
     for: 0:00:01
@@ -252,14 +237,14 @@
     brightness_pct: 60
   mode: single
 - id: '1606773416187'
-  alias: 'OFFICE KEYLIGHT: Camera auto turn off'
+  alias: '🖥  OFFICE KEYLIGHT: Camera auto turn off'
   description: ''
   trigger:
   - platform: state
     from: 'on'
     to: 'off'
     for: 0:00:05
-    entity_id: binary_sensor.google_macbookpro_camera_in_use
+    entity_id: binary_sensor.bv_imac_pro_camera_in_use
   condition: []
   action:
   - type: turn_off
@@ -297,7 +282,7 @@
   - scene: scene.new_scene
   mode: single
 - id: '1607621255833'
-  alias: 'SONOS: Pause Beckett after 30 min'
+  alias: '🧒 SONOS: Pause Beckett after 30 min'
   description: ''
   trigger:
   - platform: state
@@ -394,4 +379,72 @@
     device_id: 75e054fb014011ebb40a71d0f5db3386
     entity_id: switch.outside_entrance_lights
     domain: switch
+  mode: single
+- id: '1624226623412'
+  alias: '💨 Fan Timer: GH Bathroom'
+  description: ''
+  trigger:
+  - entity_id: switch.gh_bathroom_fan
+    for: 00:15
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - data: {}
+    service: homeassistant.turn_off
+    target:
+      device_id: 300b6595818438845b56059243517e90
+  mode: single
+- id: '1627323201289'
+  alias: Toilet Fan on when light on
+  description: ''
+  trigger:
+  - platform: device
+    type: turned_on
+    device_id: abeb1e880dfb4704aeba0d5db35e8420
+    entity_id: light.primary_bathroom_toilet_light
+    domain: light
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 2
+      milliseconds: 0
+  condition: []
+  action:
+  - type: turn_on
+    device_id: 7fc7fcdcd766449a944a0c70fa8bba01
+    entity_id: switch.primary_bathroom_toilet_fan
+    domain: switch
+  mode: single
+- id: '1627599570724'
+  alias: Link - Garage undershelf on
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.garage_undershelf_light_a
+    from: '0'
+    to: '255'
+  condition: []
+  action:
+  - type: turn_on
+    device_id: e1c905f39cd63575d5f153dc5aa75e6e
+    entity_id: light.undershelf_light
+    domain: light
+    brightness_pct: 100
+  mode: single
+- id: '1627599590941'
+  alias: Link - Garage undershelf off
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.garage_undershelf_light_a
+    from: '255'
+    to: '0'
+  condition: []
+  action:
+  - type: turn_off
+    device_id: e1c905f39cd63575d5f153dc5aa75e6e
+    entity_id: light.undershelf_light
+    domain: light
   mode: single
