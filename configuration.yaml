@@ -42,8 +42,9 @@ notify:
   - name: OO_phones
     platform: group
     services:
-      - service: mobile_app_olivia_s_iphone_11_pro
       - service: mobile_app_orens_iphone
+      - service: mobile_app_olivia_s_iphone_11_pro
+      
 
 ## Includes 
 sensor: !include sensors.yaml

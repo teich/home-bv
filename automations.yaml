@@ -78,9 +78,16 @@
     entity_id: binary_sensor.tank_draining
     state: 'on'
   action:
-  - data:
-      message: Water Tank LOW
-    service: notify.OO_phones
+  - device_id: c76a34db00464473a1685a556e79a9cd
+    domain: mobile_app
+    type: notify
+    title: ''
+    message: Water Level Low
+  - device_id: 241428e4476942c9aab8cb623581db54
+    domain: mobile_app
+    type: notify
+    title: ''
+    message: Water Level Low
   mode: single
 - id: '1599927162808'
   alias: 'NOTIFY: Open with bad air'
@@ -427,11 +434,11 @@
     to: '255'
   condition: []
   action:
-  - type: turn_on
-    device_id: e1c905f39cd63575d5f153dc5aa75e6e
-    entity_id: light.undershelf_light
-    domain: light
-    brightness_pct: 100
+  - device_id: e1c905f39cd63575d5f153dc5aa75e6e
+    domain: select
+    entity_id: select.undershelf_light_preset
+    type: select_option
+    option: white
   mode: single
 - id: '1627599590941'
   alias: Link - Garage undershelf off
