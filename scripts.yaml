@@ -1,0 +1,55 @@
+circulate_catch_basin:
+  alias: Circulate Catch Basin
+  mode: single
+  icon: mdi:waterfall
+  sequence:
+  - service: water_heater.set_temperature
+    data:
+      temperature: 64.5
+    target:
+      entity_id: water_heater.spa
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 5
+      milliseconds: 0
+  - service: switch.turn_on
+    data: {}
+    target:
+      entity_id: switch.spa
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 5
+      milliseconds: 0
+  - service: switch.turn_on
+    data: {}
+    target:
+      entity_id:
+      - switch.spa_waterfall
+  - service: switch.turn_off
+    data: {}
+    target:
+      entity_id: switch.spillway
+  - delay:
+      hours: 0
+      minutes: 10
+      seconds: 0
+      milliseconds: 0
+  - service: switch.turn_off
+    data: {}
+    target:
+      entity_id:
+      - switch.spa
+      - switch.spillway
+      - switch.spa_waterfall
+  - service: water_heater.set_temperature
+    data:
+      temperature: 99
+    target:
+      entity_id: water_heater.spa
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 5
+      milliseconds: 0

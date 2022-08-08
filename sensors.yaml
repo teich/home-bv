@@ -7,115 +7,17 @@
     - light
     # - moisture
 
-- platform: rest
-  name: bv_temp
-  resource: https://swd.weatherflow.com/swd/rest/observations/?device_id=83965&api_key=ea83f7ca-1c4f-4319-a6ba-38683662c46e
-  scan_interval: 300
-  value_template: "{{ ((value_json['summary']['feels_like'])|float * (9 / 5)+ 32)|round(1) }}"
-  unit_of_measurement: '°F'
-
-- platform: rest
-  name: 'PurpleAir'
-
-  # Substitute in the URL of the sensor you care about.  To find the URL, go
-  # to purpleair.com/map, find your sensor, click on it, click on "Get This
-  # Widget" then click on "JSON".
-  resource: https://www.purpleair.com/json?key=WYLHG5L3NZDVQPYH&show=76369
-
-  # Only query once a minute to avoid rate limits:
-  scan_interval: 120
-
-  # Set this sensor to be the AQI value.
-  #
-  # Code translated from JavaScript found at:
-  # https://docs.google.com/document/d/15ijz94dXJ-YAZLi9iZ_RaBwrZ4KtYeCy08goGBwnbCU/edit#
-  value_template: >
-    {{ value_json["results"][0]["Label"] }}
-  unit_of_measurement: ""
-  # The value of the sensor can't be longer than 255 characters, but the
-  # attributes can.  Store away all the data for use by the templates below.
-  json_attributes:
-    - results
 
 - platform: template
   sensors:
-    purpleair_aqi:
-      unique_id: 'purpleair_SENSORID_aqi_pm25'
-      friendly_name: 'PurpleAir PM2.5 AQI'
-      value_template: >
-        {% macro calcAQI(Cp, Ih, Il, BPh, BPl) -%}
-          {{ (((Ih - Il)/(BPh - BPl)) * (Cp - BPl) + Il)|round|float }}
-        {%- endmacro %}
-        {% if (states('sensor.purpleair_pm25')|float) > 1000 %}
-          invalid
-        {% elif (states('sensor.purpleair_pm25')|float) > 350.5 %}
-          {{ calcAQI((states('sensor.purpleair_pm25')|float), 500.0, 401.0, 500.0, 350.5) }}
-        {% elif (states('sensor.purpleair_pm25')|float) > 250.5 %}
-          {{ calcAQI((states('sensor.purpleair_pm25')|float), 400.0, 301.0, 350.4, 250.5) }}
-        {% elif (states('sensor.purpleair_pm25')|float) > 150.5 %}
-          {{ calcAQI((states('sensor.purpleair_pm25')|float), 300.0, 201.0, 250.4, 150.5) }}
-        {% elif (states('sensor.purpleair_pm25')|float) > 55.5 %}
-          {{ calcAQI((states('sensor.purpleair_pm25')|float), 200.0, 151.0, 150.4, 55.5) }}
-        {% elif (states('sensor.purpleair_pm25')|float) > 35.5 %}
-          {{ calcAQI((states('sensor.purpleair_pm25')|float), 150.0, 101.0, 55.4, 35.5) }}
-        {% elif (states('sensor.purpleair_pm25')|float) > 12.1 %}
-          {{ calcAQI((states('sensor.purpleair_pm25')|float), 100.0, 51.0, 35.4, 12.1) }}
-        {% elif (states('sensor.purpleair_pm25')|float) >= 0.0 %}
-          {{ calcAQI((states('sensor.purpleair_pm25')|float), 50.0, 0.0, 12.0, 0.0) }}
-        {% else %}
-          invalid
-        {% endif %}
-      unit_of_measurement: "bit"
-    purpleair_description:
-      unique_id: 'purpleair_SENSORID_description'
-      friendly_name: 'PurpleAir AQI Description'
-      value_template: >
-        {% if (states('sensor.purpleair_aqi')|float) >= 401.0 %}
-          Hazardous
-        {% elif (states('sensor.purpleair_aqi')|float) >= 301.0 %}
-          Hazardous
-        {% elif (states('sensor.purpleair_aqi')|float) >= 201.0 %}
-          Very Unhealthy
-        {% elif (states('sensor.purpleair_aqi')|float) >= 151.0 %}
-          Unhealthy
-        {% elif (states('sensor.purpleair_aqi')|float) >= 101.0 %}
-          Unhealthy for Sensitive Groups
-        {% elif (states('sensor.purpleair_aqi')|float) >= 51.0 %}
-          Moderate
-        {% elif (states('sensor.purpleair_aqi')|float) >= 0.0 %}
-          Good
-        {% else %}
-          undefined
-        {% endif %}
-      # entity_id: sensor.purpleair
-    purpleair_pm25:
-      unique_id: 'purpleair_SENSORID_pm25'
-      friendly_name: 'PurpleAir PM 2.5'
-      value_template: "{{ state_attr('sensor.purpleair','results')[0]['PM2_5Value'] }}"
-      unit_of_measurement: "μg/m3"
-      # entity_id: sensor.purpleair
-    purpleair_temp:
-      unique_id: 'purpleair_SENSORID_temperature'
-      friendly_name: 'PurpleAir Temperature'
-      value_template: "{{ state_attr('sensor.purpleair','results')[0]['temp_f'] }}"
-      unit_of_measurement: "°F"
-      # entity_id: sensor.purpleair
-    purpleair_humidity:
-      unique_id: 'purpleair_SENSORID_humidity'
-      friendly_name: 'PurpleAir Humidity'
-      value_template: "{{ state_attr('sensor.purpleair','results')[0]['humidity'] }}"
-      unit_of_measurement: "%"
-      # entity_id: sensor.purpleair
-    purpleair_pressure:
-      unique_id: 'purpleair_SENSORID_pressure'
-      friendly_name: 'PurpleAir Pressure'
-      value_template: "{{ state_attr('sensor.purpleair','results')[0]['pressure'] }}"
-      unit_of_measurement: "hPa"
-      # entity_id: sensor.purpleair
-
-
-- platform: template
-  sensors:
+    current_power_display:
+      value_template: "{{states('sensor.current_power') | round(1)}}"
+      icon_template: mdi:flash
+      unit_of_measurement: 'w'
+    pool_sub_power_display:
+        value_template: "{{states('sensor.pool_sub_power') | round(1)}}"
+        icon_template: mdi:flash
+        unit_of_measurement: 'w'
     water_tank_level:
       friendly_name: "Water Tank Level"
       unit_of_measurement: '%'
@@ -129,3 +31,11 @@
         {% endif %}
 
 
+- platform: rest
+  name: SPAN-test
+  resource: http://192.168.2.59:8080/api/v1/panel
+  value_template: "OK"
+  # json_attributes_path: "$.branches.id"
+  # json_attributes:
+  #   - instantPowerW
+  #   - exportedActiveEnergyWh

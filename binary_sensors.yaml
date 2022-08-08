@@ -3,13 +3,14 @@
     tank_filling:
       friendly_name: Filling
       entity_id: sensor.water_tank_voltage
-      sample_duration: 7200
+      sample_duration: 300
       max_samples: 150
-      min_gradient: 0.000009
+      min_gradient: 0.000015
+
 
     tank_draining:
       friendly_name: Draining
       entity_id: sensor.water_tank_voltage
-      sample_duration: 7200
+      sample_duration: 600
       max_samples: 150
-      min_gradient: -0.000009
+      min_gradient: -0.000015

@@ -1,5 +1,5 @@
 - id: '1593985213202'
-  alias: '💨  Fan Timer: Primary Bathroom Toilet'
+  alias: "\U0001F4A8  Fan Timer: Primary Bathroom Toilet"
   description: ''
   trigger:
   - entity_id: switch.primary_bathroom_toilet_fan
@@ -14,7 +14,7 @@
     service: homeassistant.turn_off
   mode: single
 - id: '1595129037109'
-  alias: '💨 Fan Timer: Beckett Bathroom'
+  alias: "\U0001F4A8 Fan Timer: Beckett Bathroom"
   description: ''
   trigger:
   - entity_id: switch.beckett_bathroom_fan
@@ -29,7 +29,7 @@
     service: homeassistant.turn_off
   mode: single
 - id: '1597619983684'
-  alias: '💨  Fan Timer: Laundry Fan'
+  alias: "\U0001F4A8  Fan Timer: Laundry Fan"
   description: ''
   trigger:
   - device_id: 7470981a9c024b4a96550be7fceac6df
@@ -227,7 +227,7 @@
     domain: switch
   mode: single
 - id: '1606773168591'
-  alias: '🖥 OFFICE KEYLIGHT: Camera auto turn on'
+  alias: "\U0001F5A5 OFFICE KEYLIGHT: Camera auto turn on"
   description: ''
   trigger:
   - platform: state
@@ -244,7 +244,7 @@
     brightness_pct: 60
   mode: single
 - id: '1606773416187'
-  alias: '🖥  OFFICE KEYLIGHT: Camera auto turn off'
+  alias: "\U0001F5A5  OFFICE KEYLIGHT: Camera auto turn off"
   description: ''
   trigger:
   - platform: state
@@ -289,7 +289,7 @@
   - scene: scene.new_scene
   mode: single
 - id: '1607621255833'
-  alias: '🧒 SONOS: Pause Beckett after 30 min'
+  alias: "\U0001F9D2 SONOS: Pause Beckett after 30 min"
   description: ''
   trigger:
   - platform: state
@@ -388,7 +388,7 @@
     domain: switch
   mode: single
 - id: '1624226623412'
-  alias: '💨 Fan Timer: GH Bathroom'
+  alias: "\U0001F4A8 Fan Timer: GH Bathroom"
   description: ''
   trigger:
   - entity_id: switch.gh_bathroom_fan
@@ -454,4 +454,66 @@
     device_id: e1c905f39cd63575d5f153dc5aa75e6e
     entity_id: light.undershelf_light
     domain: light
+  mode: single
+- id: '1653329577818'
+  alias: XXXXXXX
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - input_boolean.pool_waterfall
+    from: 'off'
+    to: 'on'
+  condition: []
+  action:
+  - if:
+    - condition: state
+      entity_id: switch.pool
+      state: 'on'
+    then:
+    - service: switch.turn_on
+      data: {}
+      target:
+        entity_id:
+        - switch.spillway
+        - switch.spa_waterfall
+    else:
+    - if:
+      - condition: state
+        entity_id: switch.spa
+        state: 'on'
+        for:
+          hours: 0
+          minutes: 0
+          seconds: 0
+      then:
+      - service: switch.turn_on
+        data: {}
+        target:
+          entity_id: switch.spa_waterfall
+      - service: switch.turn_off
+        data: {}
+        target:
+          entity_id: switch.spillway
+  mode: single
+- id: '1659635561993'
+  alias: Daily catchbasin
+  description: ''
+  trigger:
+  - platform: time
+    at: 07:00:00
+  - platform: time
+    at: '19:00:00'
+  condition:
+  - condition: state
+    entity_id: switch.pool
+    attribute: Status
+    state: 'OFF'
+  - condition: state
+    entity_id: switch.spa
+    attribute: Status
+    state: 'OFF'
+  action:
+  - service: script.circulate_catch_basin
+    data: {}
   mode: single
